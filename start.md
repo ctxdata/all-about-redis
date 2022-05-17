@@ -232,6 +232,10 @@ void multiplybyCommand(client *c) {
 }
 ```
 
+Once we completed code, we'd re-make the redis-server to make changes take effect. And we can use LLDB to attach the running `redis-server` and add break point to our new function, to go through line by line to make sure correctness of our code.
+
+![backtrack](./images/bt.png)
+
 Next time, I'd like to add a module to Redis. [Module in Redis](https://redis.io/docs/reference/modules/)
 
 I believe it will help us under deeper if we can add some features into a program.
