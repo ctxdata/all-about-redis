@@ -234,7 +234,23 @@ void multiplybyCommand(client *c) {
 
 Once we completed code, we'd re-make the redis-server to make changes take effect. And we can use LLDB to attach the running `redis-server` and add break point to our new function, to go through line by line to make sure correctness of our code.
 
-![backtrack](./images/bt.png)
+```bash
+(lldb) bt
+* thread #1, queue = 'com.apple.main-thread', stop reason = breakpoint 1.1
+  * frame #0: 0x0000000102c7ee34 redis-server`opCommand(c=0x00000001286107d0, operand=10, op=1) at t_string.c:606:27
+    frame #1: 0x0000000102c7f0ac redis-server`multiplybyCommand(c=0x00000001286107d0) at t_string.c:684:5
+    frame #2: 0x0000000102c45960 redis-server`call(c=0x00000001286107d0, flags=15) at server.c:3265:5
+    frame #3: 0x0000000102c46cb0 redis-server`processCommand(c=0x00000001286107d0) at server.c:3906:9
+    frame #4: 0x0000000102c5eee4 redis-server`processInputBuffer [inlined] processCommandAndResetClient(c=0x00000001286107d0) at networking.c:2438:9
+    frame #5: 0x0000000102c5eed4 redis-server`processInputBuffer(c=0x00000001286107d0) at networking.c:2542:17
+    frame #6: 0x0000000102c5735c redis-server`readQueryFromClient(conn=<unavailable>) at networking.c:2673:9
+    frame #7: 0x0000000102d08414 redis-server`connSocketEventHandler [inlined] callHandler(conn=0x0000600001bf4000, handler=<unavailable>) at connhelpers.h:79:18
+    frame #8: 0x0000000102d08400 redis-server`connSocketEventHandler(el=<unavailable>, fd=<unavailable>, clientData=0x0000600001bf4000, mask=<unavailable>) at connection.c:310:14
+    frame #9: 0x0000000102c3be08 redis-server`aeProcessEvents(eventLoop=0x0000600002dfcf00, flags=27) at ae.c:436:17
+    frame #10: 0x0000000102c3c078 redis-server`aeMain(eventLoop=0x0000600002dfcf00) at ae.c:496:9
+    frame #11: 0x0000000102c4cea8 redis-server`main(argc=2, argv=<unavailable>) at server.c:7085:5
+    frame #12: 0x0000000102ef5088 dyld`start + 516
+```
 
 Next time, I'd like to add a module to Redis. [Module in Redis](https://redis.io/docs/reference/modules/)
 
